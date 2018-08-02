@@ -8,46 +8,50 @@
             margin: 0;
             padding: 0;
         }
+        .box{
+            width: 400px;
+            height: 250px;
+            position: relative;
+            margin: 100px 0 0 300px;
+        }
         ul{
-            width: 448px;
-            height: 60px;
-            border: 1px solid #765930;
+            width: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
             list-style: none;
         }
-        .box{
-            width: 450px;
-            margin: 50px auto;
-        }
         li{
-            width: 111px;
+            width: 96px;
             height: 60px;
-            line-height: 60px;
             text-align: center;
             font-family: '李旭科毛笔行书';
             font-size: 25px;
             color:#BB9618;
-            border-right: 1px solid #be1715;
+            line-height: 60px;
+            border: 2px solid #be1715;
+            border-bottom: none;
             cursor: pointer;
-            float: left;
         }
         li:nth-of-type(4){
-            border: none;
+            border-bottom: 2px solid #be1715;
         }
-        div{
-            width: 450px;
-            height: 252px;
-            border: 1px solid #BB9618;
-        }
-        img{
+
+        .pic{
             width: 450px;
             height: 250px;
+            position: absolute;
+            top: 0;
+            left: 100px;
+        }
+        img{
             display: none;
         }
         img:nth-of-type(1){
             display: block;
         }
         .active{
-            background-color: #f4f4f4;
+            background-color: #93a89f;
             cursor: pointer;
         }
     </style>
@@ -60,7 +64,7 @@
         <li>合照</li>
         <li>无极</li>
     </ul>
-    <div>
+    <div class="pic">
         <img src="imags/1.jpg">
         <img src="imags/2.jpg">
         <img src="imags/3.jpg">
@@ -69,33 +73,23 @@
 </div>
 </body>
 <script>
-    //获取元素
     var lis=document.getElementsByTagName('li');
-    var imgs=document.getElementsByTagName('img');
+    var img=document.getElementsByTagName('img');
     var timer=null;
-    //使用for循环，遍历li
-    for(var i=0;i<lis.length;i++) {
-        //给lis定义一个属性，让他的index为i，
-        // 因为根据js的执行顺序，先执行for循环，lis只有被mouseover的时候才会执行
-        //此时i已经变成lis.length的值4啦，所以给lis设置属性为了保存for循环里面的值
-        lis[i].index = i;
-        lis[i].onmouseover = function () {
-            //这是的this指向发生变化了；
-            var that = this;
-            console.log(this)
-            // 延迟200毫秒以后再执行
-            timer = setTimeout(function () {
-                //给所有的元素先清掉选中的状态，在选择要加上的元素给他加上状态
-                for (var j = 0; j < lis.length; j++) {
+    for(var i=0;i<lis.length;i++){
+        lis[i].index=i;
+        lis[i].onmouseover=function () {
+            var that=this;
+            clearTimeout(timer);
+            timer=setTimeout(function () {
+                for(var j=0;j<lis.length;j++){
                     lis[j].removeAttribute('class');
-                    imgs[j].style.display = 'none';
+                    img[j].style.display='none';
                 }
-                lis[that.index].setAttribute('class', 'active');
-                imgs[that.index].style.display = 'block';
-
-            }, 200)
+                lis[that.index].setAttribute('class','active');
+                img[that.index].style.display='block'
+            },200)
         };
-    // 当鼠标移除的时候也需要清除定时器
         lis[i].onmouseout=function () {
             clearTimeout(timer);
         }
